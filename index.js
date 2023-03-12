@@ -49,7 +49,7 @@ async function request() {
 
 async function response() {
   try {
-    const events = await contract.getPastEvents(eventName, {
+    const events = await contract.getPastEvents(eventName2, {
       fromBlock: 11078738,
       toBlock: 'latest'
     });
