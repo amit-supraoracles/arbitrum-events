@@ -3,11 +3,15 @@ require('dotenv').config()
 const abi = require('./contract-abi.json');
 
 const eventName = 'RequestGenerated';
+const eventName2 = 'NonceProcessed';
+
 const contractAddress = process.env.ROUTER_CONTRACT;
+
+
 const web3 = new Web3(process.env.RPC_ARBIITRUM);
 const contract = new web3.eth.Contract(abi, contractAddress);
 
-async function test() {
+async function request() {
   try {
     const events = await contract.getPastEvents(eventName, {
       fromBlock: 11078738,
@@ -41,7 +45,44 @@ async function test() {
 
 }
 
-test();
+
+
+async function response() {
+  try {
+    const events = await contract.getPastEvents(eventName, {
+      fromBlock: 11078738,
+      toBlock: 'latest'
+    });
+
+    const result = await events;
+    console.log("\nNo. of transactions",result.length);
+    
+    for(let loop=0; loop < result.length; loop++){
+      
+      let txHash = result[loop].transactionHash
+      const tx = await web3.eth.getTransaction(txHash);
+      const receipt = await web3.eth.getTransactionReceipt(txHash);
+      const fee = web3.utils.fromWei((tx.gasPrice * receipt.gasUsed).toString(), 'ether');
+      const block = await web3.eth.getBlock(receipt.blockNumber);
+      const timestamp = block.timestamp;
+
+      console.log("\n");
+      console.log("###### NONCE :::", result[loop].returnValues.nonce);
+      console.log("###### GAS USED IN TX:::", receipt.gasUsed);
+      console.log("###### TX FEE :::", fee);
+      console.log("###### BLOCK NUMBER :::", result[loop].blockNumber);
+      console.log("###### TIMESTAMP :::",timestamp);
+      console.log("############################################");
+
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+}
+
+// request();
+response();
 
 
 
