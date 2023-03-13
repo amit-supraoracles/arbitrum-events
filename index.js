@@ -38,6 +38,7 @@ async function request() {
         const fee = web3.utils.fromWei((tx.gasPrice * receipt.gasUsed).toString(), 'ether');
         const block = await web3.eth.getBlock(receipt.blockNumber);
         const timestamp = block.timestamp;
+        
         console.log("\n");
         console.log("###### NONCE :::", result[loop].returnValues.nonce);
         console.log("###### TX HASH :::", txHash);
