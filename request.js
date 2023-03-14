@@ -12,13 +12,13 @@ const contractAddress = process.env.ROUTER_CONTRACT;
 const web3 = new Web3(process.env.RPC_ARBIITRUM);
 const contract = new web3.eth.Contract(abi, contractAddress);
 
-const outputFileName = 'requestData.json';
+const outputFileName = 'requestData_5000.json';
 let outputData = {};
 
 async function request() {
   try {
     const events = await contract.getPastEvents(eventName, {
-      fromBlock: 11179544,
+      fromBlock: 11201483,
       toBlock: 'latest'
     });
 

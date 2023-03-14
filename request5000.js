@@ -12,13 +12,13 @@ const contractAddress = process.env.ROUTER_CONTRACT;
 const web3 = new Web3(process.env.RPC_ARBIITRUM);
 const contract = new web3.eth.Contract(abi, contractAddress);
 
-const outputFileName = 'request_25_nov_to_13_March.json';
+const outputFileName = 'request_5000.json';
 let outputData = {};
 
 async function request() {
   try {
     const latestBlock = await web3.eth.getBlockNumber();
-    let fromBlock = 1732742;
+    let fromBlock = 10422624;
     const batchSize = 10000;
     let toBlock = fromBlock + batchSize;
 
